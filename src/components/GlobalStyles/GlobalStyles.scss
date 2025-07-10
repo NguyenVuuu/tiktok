@@ -1,20 +1,88 @@
 @import "normalize.css";
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,400;0,500;0,600;0,700;1,300;1,400&display=swap");
 // font-family: 'IBM Plex Sans', san-serif;
 
-// `@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,400;0,500;0,600;0,700;1,300;1,400&display=swap'); font-family: 'IBM Plex Sans', san-serif;`
+// @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,400;0,500;0,600;0,700;1,300;1,400&display=swap");
 :root {
   --primary: #fe2c55;
+  --black: #000;
+  --white: #fff;
+  --text-color: #161823;
+
+  //hover
+  --primary-hover: linear-gradient(0deg, rgba(0, 0, 0, 0.05)), #fe2c55;
+  --outline-hover: rgba(254, 44, 85, 0.06);
+
+  //default layout
+  --default-layout-header-height: 60px;
+  --default-layout-width: 1150px;
+  --default-layout-horizontal-spacer: 24px;
 }
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 html {
   font-size: 62.5%;
 }
 body {
-  font-family: "IBM Plex Sans", san-serif;
+  font-family: "ProximaNova", san-serif;
+  // font-family: "IBM Plex Sans", san-serif;
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizespeed;
+  color: var(--text-color);
+}
+button,
+input,
+[tabindex] {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+a[href] {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+//Fonts embeded
+@font-face {
+  font-family: ProximaNova;
+  src: url("/assests/fonts/TikTokFont-Regular.woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: ProximaNova;
+  src: url("/assests/fonts/TikTokFont-Semibold.woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: ProximaNova;
+  src: url("/assests/fonts/TikTokFont-Bold.woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: SofiaPro;
+  src: url("/assests/fonts/TikTokDisplayFont-Bold.woff2");
+  font-weight: 700;
+}
+//custom tooltip tippy
+body {
+  .tippy-box {
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 2.2rem;
+    border-radius: 8px;
+    background-color: rgba(84, 84, 84, 0.92);
+    inset: -6px auto auto 0px;
+  }
+  .tippy-arrow {
+    color: rgba(84, 84, 84, 0.92);
+  }
+  .tippy-box[data-placement^="bottom"] > .tippy-arrow {
+    top: -1px;
+  }
+  .tippy-content {
+    padding: 6px 8px;
+  }
 }

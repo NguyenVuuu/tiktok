@@ -1,0 +1,84 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "ProximaNova", san-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  min-width: 100px;
+  padding: 9px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  user-select: none;
+
+  + .wrapper {
+    margin-left: 8px;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+//button type
+
+.rounded {
+  border-color: rgba(22, 24, 35, 0.12);
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgb(0 0 0 /6%);
+
+  &:hover {
+    border-color: rgba(22, 24, 35, 0.2);
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+.primary {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+
+  &:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary);
+  }
+}
+
+.outline {
+  color: var(--primary);
+  border-color: currentColor;
+
+  &:hover {
+    background-color: var(--outline-hover);
+    border-color: currentColor;
+  }
+}
+
+.text {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+//button size
+.small {
+  min-width: 88px;
+  padding: 4px 16px;
+}
+.large {
+  min-width: 140px;
+  padding: 14px 16px;
+}
+
+//icon
+.icon + .title,
+.title + .icon {
+  margin-left: 8px;
+}
+.icon {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
