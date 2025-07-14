@@ -9,26 +9,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <h1>Tiktok</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/follow">Following</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/upload">Upload</Link>
-            </li>
-            <li>
-              <Link to="/search">Search</Link>
-            </li>
-          </ul>
-        </nav> */}
         <Routes>
           {publicRoutes.map((route, index) => {
             // nếu layout === null thì hiển thị trang đó không có layout
