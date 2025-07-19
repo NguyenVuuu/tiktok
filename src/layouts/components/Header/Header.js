@@ -5,6 +5,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
+import config from "~/config";
 import Button from "~/components/Button";
 import logo from "~/assests/images/logo.svg";
 import Menu from "~/components/Popper/Menu";
@@ -34,6 +35,13 @@ const MENU_ITEMS = [
     children: {
       title: "Language",
       data: [
+        { type: "language", code: "en", title: "English" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
+        { type: "language", code: "vi", title: "Tiếng Việt" },
         { type: "language", code: "en", title: "English" },
         { type: "language", code: "vi", title: "Tiếng Việt" },
       ],
@@ -88,7 +96,7 @@ function Header() {
     <>
       <header className={cx("wrapper")}>
         <div className={cx("inner")}>
-          <Link to="/">
+          <Link to={config.routes.home} className={cx("logo-link")}>
             <img src={logo} alt="tiktok" />
           </Link>
 
@@ -114,9 +122,6 @@ function Header() {
                   </button>
                 </Tippy>
                 <Tippy delay={[0, 200]} content="Inbox" placement="bottom">
-                  {/* <button className={cx("action-btn")}>
-                    <InboxIcon />
-                  </button> */}
                   <button className={cx("action-btn")}>
                     <InboxIcon />
                     <span className={cx("badge")}>8</span>
@@ -127,7 +132,9 @@ function Header() {
               //render giao diện chưa đăng nhập
               <>
                 <Button text>Upload</Button>
-                <Button primary>Log in</Button>
+                <Button primary to="/">
+                  Log in
+                </Button>
               </>
             )}
             <Menu
