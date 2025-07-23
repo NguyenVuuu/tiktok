@@ -1,0 +1,54 @@
+//suggestedaccounts.js
+.wrapper {
+  border-top: 1px solid #e3e3e4;
+}
+.label {
+  padding: 8px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgba(22, 24, 35, 0.75);
+}
+.more-btn {
+  padding: 8px;
+  font-size: 1.4rem;
+  font-weight: 6 00;
+  line-height: 2rem;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+//accountitem.js
+.account-item {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+.item-info {
+  flex: 1;
+  margin-left: 12px;
+}
+.nickname {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text-color);
+}
+.check {
+  margin-left: 4px;
+  font-size: 1.4rem;
+  color: #20d5ec;
+}
+.name {
+  font-size: 1.2rem;
+  color: #161823bf;
+}
