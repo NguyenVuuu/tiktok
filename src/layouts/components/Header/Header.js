@@ -58,7 +58,8 @@ const MENU_ITEMS = [
   },
 ];
 function Header() {
-  const [currentUser, setCurrentUser] = useState(true);
+  // const [currentUser, setCurrentUser] = useState(true);
+  const currentUser = true;
 
   //handle logic
   const handleMenuChange = (menuItem) => {
