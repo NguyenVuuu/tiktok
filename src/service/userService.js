@@ -12,15 +12,17 @@ export const getSuggested = async ({ page, perPage }) => {
     });
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.log("getSuggested service: ", error);
   }
 };
-// export const getFollowing = async ({ page }) => {
+// export const getFollowing = async ({ token, page }) => {
 //   try {
 //     const res = await request.get("me/followings", {
 //       params: {
 //         page,
-//       },
+//       },headers:{
+//         Authorization: `Bearer ${token}`,
+//       }
 //     });
 //     return res.data;
 //   } catch (error) {

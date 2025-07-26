@@ -17,7 +17,9 @@ function AccountItem({ data }) {
             <FontAwesomeIcon className={cx("check")} icon={faCheckCircle} />
           )}
         </h4>
-        <span className={cx("username")}>{data.full_name}</span>
+        <span className={cx("username")}>
+          {data.first_name} {data.last_name}
+        </span>
       </div>
     </Link>
   );

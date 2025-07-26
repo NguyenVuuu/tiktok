@@ -6,6 +6,8 @@ import config from "~/config";
 import Menu, { MenuItem } from "./Menu";
 import * as userService from "~/service/userService";
 import {
+  CompassActiveIcon,
+  CompassIcon,
   HomeActiveIcon,
   HomeIcon,
   LiveActiveIcon,
@@ -65,6 +67,12 @@ function Sidebar() {
           to={config.routes.live}
           icon={<LiveIcon />}
           activeIcon={<LiveActiveIcon />}
+        />
+        <MenuItem
+          title="EXPLORE"
+          to={config.routes.explore}
+          icon={<CompassIcon />}
+          activeIcon={<CompassActiveIcon />}
         />
       </Menu>
 
