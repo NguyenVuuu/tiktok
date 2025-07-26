@@ -13,27 +13,26 @@ import Button from "../Button";
 import Image from "../Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-function Video({ data = [] }) {
+function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [volume, setVolume] = useState(0.5);
-  const [mute, setMute] = useState(false);
   const videoRef = useRef();
+  const { ref, inView } = useInView({
+    threshold: 0.75,
+  });
 
-  const handleSliderVolume = (e) => {
-    setVolume(e.target.value / 100);
-  };
-
-  const toggleVolume = () => {
-    setMute(!mute);
-    if (mute) {
-      videoRef.current.volume = volume;
-    } else {
-      videoRef.current.volume = 0;
+  useEffect(() => {
+    if (videoRef.current) {
+      // set muted
+      videoRef.current.muted = mute;
+      // set volume, nếu muted thì volume = 0, nếu ko muted thì volume = volume
+      videoRef.current.volume = mute ? 0 : volume;
     }
-  };
+  }, [volume, mute]);
   const playVideo = () => {
     if (!isPlaying) {
       videoRef.current.play();
@@ -56,29 +55,35 @@ function Video({ data = [] }) {
     }
   };
 
-  const playNextVideo = () => {
-    //xử lý lướt đến video kế tiếp thì dừng video hiện tại và play video kế tiếp
-  };
   useEffect(() => {
-    window.addEventListener("scroll", playNextVideo);
-    return () => window.removeEventListener("scroll", playNextVideo);
-  });
+    if (inView) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [inView]);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("user")}>
         <div className={cx("user-info")}>
-          <Image
-            className={cx("avatar")}
-            src={data.user.avatar}
-            alt={data.user.full_name}
-          />
+          <Link to={`/@${data.user.nickname}`}>
+            <Image
+              className={cx("avatar")}
+              src={data.user.avatar}
+              alt={data.user.full_name}
+            />
+          </Link>
           <div className={cx("item-info")}>
-            <p className={cx("nickname")}>
-              <strong>{data.user.nickname}</strong>{" "}
-              <span className={cx("name")}>
-                {data.user.first_name} {data.user.last_name}
-              </span>
-            </p>
+            <Link to={`/@${data.user.nickname}`}>
+              <p className={cx("nickname")}>
+                <strong>{data.user.nickname}</strong>{" "}
+                <span className={cx("name")}>
+                  {data.user.first_name} {data.user.last_name}
+                </span>
+              </p>
+            </Link>
             <p className={cx("description")}>{data.description}</p>
             <div className={cx("music")}>
               <FontAwesomeIcon icon={faMusic} /> <span>{data.music}</span>
@@ -91,7 +96,7 @@ function Video({ data = [] }) {
       </div>
       <div className={cx("video")}>
         <div className={cx("video-container")}>
-          <div className={cx("video-content")}>
+          <div className={cx("video-content")} ref={ref}>
             <video src={data?.file_url} loop ref={videoRef} />
             <img src={data?.thumb_url} alt={data?.thumb_url} />
           </div>
