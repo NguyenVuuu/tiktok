@@ -1,25 +1,32 @@
-import PropTypes from "prop-types";
-import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+import classNames from "classnames/bind";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
+
 import {
+  EllipsisHorizontalIcon,
+  Icon_Comment,
   LikeActiveIcon,
   MuteIcon,
   PauseIcon,
-  PlayIcon,
+  PlaySolidIcon,
+  ShareSolidIcon,
   UnMuteIcon,
 } from "../Icon";
 import styles from "./Video.module.scss";
 import Button from "../Button";
 import Image from "../Image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
-import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [showCenterIcon, setShowCenterIcon] = useState(false);
+  const [centerIconType, setCenterIconType] = useState("play");
+
   const videoRef = useRef();
   const { ref, inView } = useInView({
     threshold: 0.75,
@@ -50,11 +57,17 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
   const toggleVideo = () => {
     if (!isPlaying) {
       playVideo();
+      setCenterIconType("pause");
     } else {
       pauseVideo();
+      setCenterIconType("play");
     }
-  };
 
+    setShowCenterIcon(true);
+    setTimeout(() => {
+      setShowCenterIcon(false);
+    }, 600);
+  };
   useEffect(() => {
     if (inView) {
       videoRef.current.play();
@@ -97,12 +110,19 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
       <div className={cx("video")}>
         <div className={cx("video-container")}>
           <div className={cx("video-content")} ref={ref}>
-            <video src={data?.file_url} loop ref={videoRef} />
-            <img src={data?.thumb_url} alt={data?.thumb_url} />
-          </div>
+            <video
+              src={data?.file_url}
+              loop
+              ref={videoRef}
+              onClick={toggleVideo}
+            />
+            {showCenterIcon && (
+              <div className={cx("center-icon")}>
+                {centerIconType === "play" ? <PauseIcon /> : <PlaySolidIcon />}
+              </div>
+            )}
 
-          <div className={cx("play-btn")} onClick={toggleVideo}>
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+            <img src={data?.thumb_url} alt={data?.thumb_url} />
           </div>
 
           <div className={cx("volume-container", { active: mute })}>
@@ -121,11 +141,24 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
               {mute || volume === 0 ? <MuteIcon /> : <UnMuteIcon />}
             </div>
           </div>
+          <div className={cx("more-btn")}>
+            <EllipsisHorizontalIcon />
+          </div>
         </div>
         <div className={cx("video-interaction")}>
-          <div className="">
+          <button className="like">
             <LikeActiveIcon />
-          </div>
+          </button>
+          <strong>{data.likes_count}</strong>
+          <button className="comment">
+            <Icon_Comment />
+          </button>
+          <strong>{data.comments_count}</strong>
+
+          <button className="share">
+            <ShareSolidIcon />
+          </button>
+          <strong>{data.shares_count}</strong>
         </div>
       </div>
     </div>

@@ -404,72 +404,6 @@ export const CompassActiveIcon = ({
   </svg>
 );
 
-export const LikeActiveIcon = ({
-  className,
-  width = "2.4rem",
-  height = "2.4rem",
-}) => (
-  <svg
-    className={className}
-    width={width}
-    data-e2e=""
-    height={height}
-    viewBox="0 0 48 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g filter="url(#LikeRedShadowColor_filter0_d)">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M15 4.5C21 4.5 24 8.5 24 8.5C24 8.5 27 4.5 33 4.5C40 4.5 45 9.99998 45 17C45 25 38.4622 32.1314 32.5 37.5C28.8191 40.8144 26 43 24 43C22 43 19.101 40.7978 15.5 37.5C9.63898 32.1325 3 25 3 17C3 9.99998 8 4.5 15 4.5Z"
-        fill="#FE2C55"
-      ></path>
-    </g>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M4.80371 24.3995C7.17815 29.3932 11.5185 33.8538 15.4999 37.4999C19.1009 40.7978 21.9999 42.9999 23.9999 42.9999C25.9999 42.9999 28.819 40.8144 32.4999 37.4999C38.4621 32.1314 44.9999 24.9999 44.9999 16.9999C44.9999 16.8252 44.9968 16.6513 44.9906 16.4785C41.1344 27.3238 27.3575 37 23.5001 37C20.6255 37 11.2219 31.6262 4.80371 24.3995Z"
-      fill="black"
-      fillOpacity="0.03"
-    ></path>
-    <defs>
-      <filter
-        id="LikeRedShadowColor_filter0_d"
-        x="0.6"
-        y="3.3"
-        width="46.8"
-        height="43.3"
-        filterUnits="userSpaceOnUse"
-        colorInterpolationFilters="sRGB"
-      >
-        <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-        ></feColorMatrix>
-        <feOffset dy="1.2"></feOffset>
-        <feGaussianBlur stdDeviation="1.2"></feGaussianBlur>
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
-        ></feColorMatrix>
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow"
-        ></feBlend>
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_dropShadow"
-          result="shape"
-        ></feBlend>
-      </filter>
-    </defs>
-  </svg>
-);
 export const PlayIcon = ({
   className,
   width = "2.4rem",
@@ -493,8 +427,8 @@ export const PlayIcon = ({
 
 export const PlaySolidIcon = ({
   className,
-  width = "3.2rem",
-  height = "3.2rem",
+  width = "5.2rem",
+  height = "5.2rem",
 }) => (
   <svg
     className={className}
@@ -513,8 +447,8 @@ export const PlaySolidIcon = ({
 );
 export const PauseIcon = ({
   className,
-  width = "2.4rem",
-  height = "2.4rem",
+  width = "5.2rem",
+  height = "5.2rem",
 }) => (
   <svg
     className={className}
@@ -703,7 +637,47 @@ export const ChevronDownIcon = ({
     ></path>
   </svg>
 );
-
+export const LikeActiveIcon = ({
+  className,
+  width = "2.4rem",
+  height = "2.4rem",
+}) => (
+  <svg
+    className={className}
+    width={width}
+    height={height}
+    viewBox="0 0 48 48"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M15 4.5C21 4.5 24 8.5 24 8.5C24 8.5 27 4.5 33 4.5C40 4.5 45 9.99998 45 17C45 25 38.4622 32.1314 32.5 37.5C28.8191 40.8144 26 43 24 43C22 43 19.101 40.7978 15.5 37.5C9.63898 32.1325 3 25 3 17C3 9.99998 8 4.5 15 4.5Z"
+    ></path>
+  </svg>
+);
+export const Icon_Comment = ({
+  className,
+  width = "2.4rem",
+  height = "2.4rem",
+}) => (
+  <svg
+    className={className}
+    width={width}
+    height={height}
+    viewBox="0 0 48 48"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      d="M2 21.5c0-10.22 9.88-18 22-18s22 7.78 22 18c0 5.63-3.19 10.74-7.32 14.8a43.6 43.6 0 0 1-14.14 9.1A1.5 1.5 0 0 1 22.5 44v-5.04C11.13 38.4 2 31.34 2 21.5M14 25a3 3 0 1 0 0-6 3 3 0 0 0 0 6m10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6m13-3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+      clipRule="evenodd"
+      strokeWidth="2"
+    ></path>
+  </svg>
+);
 export const ShareIcon = ({
   className,
   width = "2.4rem",
@@ -714,7 +688,7 @@ export const ShareIcon = ({
     width={width}
     height={height}
     viewBox="0 0 24 24"
-    fill="none"
+    fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
