@@ -1,6 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import classNames from "classnames/bind";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+
 import Video from "~/components/Video";
+import styles from "./Home.module.scss";
 import * as videoService from "~/service/videoService";
+
+const cx = classNames.bind(styles);
 
 function Home() {
   //lấy volume từ local storage
@@ -10,6 +17,9 @@ function Home() {
   const [volume, setVolume] = useState(0);
   const [prevVolume, setPrevVolume] = useState(savedVolume);
   const [mute, setMute] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+
+  const wrapperRef = useRef();
 
   //api video
   useEffect(() => {
@@ -57,32 +67,60 @@ function Home() {
       setMute(true);
     }
   };
+
   // lắng nghe sự kiện scroll
   // mỗi khi scroll đến cuối trang thì tăng pages lên 1
+  // const handleScroll = () => {
+  //   if (window.scrollY + window.innerHeight >= document.body.offsetHeight) {
+  //     setPages((pages) => pages + 1);
+  //   }
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // });
+
   const handleScroll = () => {
-    if (window.scrollY + window.innerHeight >= document.body.offsetHeight) {
+    const wrapper = wrapperRef.current;
+    if (
+      wrapper &&
+      wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 100
+    ) {
       setPages((pages) => pages + 1);
     }
   };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  });
 
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (wrapper) {
+      wrapper.addEventListener("scroll", handleScroll);
+      return () => wrapper.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
   return (
-    <div className="wrapper">
+    <div ref={wrapperRef} className={cx("wrapper")}>
       {listVideos.map((video) => {
         return (
-          <Video
-            key={video.id}
-            data={video}
-            volume={volume}
-            mute={mute}
-            handleSliderVolume={handleSliderVolume}
-            toggleVolume={toggleVolume}
-          />
+          <div key={video.id} className={cx("video-wrapper")}>
+            <Video
+              data={video}
+              volume={volume}
+              mute={mute}
+              handleSliderVolume={handleSliderVolume}
+              toggleVolume={toggleVolume}
+            />
+          </div>
         );
       })}
+
+      <div className={cx("scroll-buttons")}>
+        <button className={cx("up-btn")}>
+          <FontAwesomeIcon icon={faAngleUp} className={cx("icon")} />
+        </button>
+        <button className={cx("down-btn")}>
+          <FontAwesomeIcon icon={faAngleDown} className={cx("icon")} />
+        </button>
+      </div>
     </div>
   );
 }

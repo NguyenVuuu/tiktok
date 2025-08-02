@@ -3,8 +3,6 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
 
 import {
   EllipsisHorizontalIcon,
@@ -22,14 +20,21 @@ import Image from "../Image";
 
 const cx = classNames.bind(styles);
 
-function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
+function Video({
+  data = [],
+  volume,
+  mute,
+  handleSliderVolume,
+  toggleVolume,
+  onInView,
+}) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [showCenterIcon, setShowCenterIcon] = useState(false);
   const [centerIconType, setCenterIconType] = useState("play");
 
   const videoRef = useRef();
   const { ref, inView } = useInView({
-    threshold: 0.75,
+    threshold: 1,
   });
 
   useEffect(() => {
@@ -69,6 +74,9 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
     }, 600);
   };
   useEffect(() => {
+    if (onInView) {
+      onInView(inView);
+    }
     if (inView) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -79,7 +87,7 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
   }, [inView]);
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("user")}>
+      {/* <div className={cx("user")}>
         <div className={cx("user-info")}>
           <Link to={`/@${data.user.nickname}`}>
             <Image
@@ -106,7 +114,7 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
         <div>
           <Button outline>Follow</Button>
         </div>
-      </div>
+      </div> */}
       <div className={cx("video")}>
         <div className={cx("video-container")}>
           <div className={cx("video-content")} ref={ref}>
@@ -146,6 +154,13 @@ function Video({ data = [], volume, mute, handleSliderVolume, toggleVolume }) {
           </div>
         </div>
         <div className={cx("video-interaction")}>
+          <Link to={`/@${data.user.nickname}`}>
+            <Image
+              className={cx("avatar")}
+              src={data.user.avatar}
+              alt={data.user.full_name}
+            />
+          </Link>
           <button className="like">
             <LikeActiveIcon />
           </button>

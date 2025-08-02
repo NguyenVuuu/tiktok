@@ -2,53 +2,50 @@
   --size-data: calc(320px + 16vw);
   position: relative;
   display: flex;
-  margin-top: 10px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid #e3e3e4;
 
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 //user
-.user {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.user-info {
-  display: flex;
-  padding: 8px;
-  align-items: center;
-  cursor: pointer;
-}
-.avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  object-fit: cover;
-}
+// .user {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+// }
+// .user-info {
+//   display: flex;
+//   padding: 8px;
+//   align-items: center;
+//   cursor: pointer;
+// }
+// .avatar {
+//   width: 56px;
+//   height: 56px;
+//   border-radius: 999px;
+//   object-fit: cover;
+// }
 
-.item-info {
-  flex: 1;
-  margin-left: 12px;
-}
-.nickname {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--text-color);
-}
-.check {
-  margin-left: 4px;
-  font-size: 1.4rem;
-  color: #20d5ec;
-}
-.name {
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: #888;
-}
+// .item-info {
+//   flex: 1;
+//   margin-left: 12px;
+// }
+// .nickname {
+//   font-size: 1.6rem;
+//   font-weight: 700;
+//   color: var(--text-color);
+// }
+// .check {
+//   margin-left: 4px;
+//   font-size: 1.4rem;
+//   color: #20d5ec;
+// }
+// .name {
+//   font-size: 1.3rem;
+//   font-weight: 400;
+//   color: #888;
+// }
 //VIDEO
 .video {
   position: relative;
@@ -73,7 +70,6 @@
 }
 .video-content {
   position: relative;
-  width: calc(var(--size-data) / 100 * 56.25);
   cursor: pointer;
   height: 100%;
   width: 100%;
@@ -114,6 +110,7 @@
 
 .volume-container {
   color: var(--white);
+  cursor: pointer;
 
   &.active {
     opacity: 1;
@@ -182,15 +179,21 @@
     border-radius: 50%;
     color: var(--text-color);
     background-color: rgba(22, 24, 35, 0.12);
+    margin-top: 10px;
+
     cursor: pointer;
   }
 
   strong {
     font-size: 1.6rem;
-    margin-bottom: 10px;
   }
 }
-
+.avatar {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 999px;
+  object-fit: cover;
+}
 @keyframes fadeOut {
   0% {
     opacity: 1;

@@ -1,0 +1,52 @@
+.wrapper {
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  /* Ẩn scrollbar Firefox */
+  scrollbar-width: none;
+  /* Ẩn scrollbar Edge */
+  -ms-overflow-style: none;
+  /* Ẩn scrollbar Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.video-wrapper {
+  scroll-snap-align: start;
+  height: calc(100vh - 60px);
+}
+.scroll-buttons {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  translate: 0 -50%;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    border-radius: 999px;
+    width: 48px;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.05);
+
+    &:hover:not(:disabled) {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .icon {
+      color: var(--text-color);
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

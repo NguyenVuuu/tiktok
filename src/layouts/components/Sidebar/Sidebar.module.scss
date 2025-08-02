@@ -1,7 +1,18 @@
 .wrapper {
-  width: 356px;
+  width: 340px;
+}
+.inner {
   padding: 20px 0 26px 8px;
   margin-left: -18px;
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  width: inherit;
+  z-index: 9997;
+  overflow-y: auto;
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 }
 .more-btn {
   padding: 8px;
