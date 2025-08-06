@@ -15,6 +15,7 @@ export const getSuggested = async ({ page, perPage }) => {
     console.log("getSuggested service: ", error);
   }
 };
+
 // export const getFollowing = async ({ token, page }) => {
 //   try {
 //     const res = await request.get("me/followings", {
@@ -29,3 +30,14 @@ export const getSuggested = async ({ page, perPage }) => {
 //     console.log(error);
 //   }
 // };
+
+// Fetch profile của user theo nickname
+export const getProfile = async ({ nickname }) => {
+  try {
+    const res = await request.get(`users/@${nickname}`);
+    return res.data;
+  } catch (error) {
+    console.log("getProfile service: ", error);
+    throw error;
+  }
+};

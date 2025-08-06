@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import classNames from "classnames/bind";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import classNames from "classnames/bind";
 
 import {
   EllipsisHorizontalIcon,
@@ -15,7 +17,6 @@ import {
   UnMuteIcon,
 } from "../Icon";
 import styles from "./Video.module.scss";
-import Button from "../Button";
 import Image from "../Image";
 
 const cx = classNames.bind(styles);
@@ -31,6 +32,7 @@ function Video({
   const [isPlaying, setIsPlaying] = useState(true);
   const [showCenterIcon, setShowCenterIcon] = useState(false);
   const [centerIconType, setCenterIconType] = useState("play");
+  const [followed, setFollowed] = useState(false);
 
   const videoRef = useRef();
   const { ref, inView } = useInView({
@@ -87,34 +89,6 @@ function Video({
   }, [inView]);
   return (
     <div className={cx("wrapper")}>
-      {/* <div className={cx("user")}>
-        <div className={cx("user-info")}>
-          <Link to={`/@${data.user.nickname}`}>
-            <Image
-              className={cx("avatar")}
-              src={data.user.avatar}
-              alt={data.user.full_name}
-            />
-          </Link>
-          <div className={cx("item-info")}>
-            <Link to={`/@${data.user.nickname}`}>
-              <p className={cx("nickname")}>
-                <strong>{data.user.nickname}</strong>{" "}
-                <span className={cx("name")}>
-                  {data.user.first_name} {data.user.last_name}
-                </span>
-              </p>
-            </Link>
-            <p className={cx("description")}>{data.description}</p>
-            <div className={cx("music")}>
-              <FontAwesomeIcon icon={faMusic} /> <span>{data.music}</span>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Button outline>Follow</Button>
-        </div>
-      </div> */}
       <div className={cx("video")}>
         <div className={cx("video-container")}>
           <div className={cx("video-content")} ref={ref}>
@@ -154,13 +128,22 @@ function Video({
           </div>
         </div>
         <div className={cx("video-interaction")}>
-          <Link to={`/@${data.user.nickname}`}>
-            <Image
-              className={cx("avatar")}
-              src={data.user.avatar}
-              alt={data.user.full_name}
-            />
-          </Link>
+          <div className={cx("profile")}>
+            <Link to={`/@${data.user.nickname}`}>
+              <Image
+                className={cx("avatar")}
+                src={data.user.avatar}
+                alt={data.user.full_name}
+              />
+            </Link>
+            <span className={cx("follow-btn", { followed: followed })}>
+              {followed ? (
+                <FontAwesomeIcon icon={faCheck} className={cx("icon")} />
+              ) : (
+                <FontAwesomeIcon icon={faPlus} className={cx("icon")} />
+              )}
+            </span>
+          </div>
           <button className="like">
             <LikeActiveIcon />
           </button>

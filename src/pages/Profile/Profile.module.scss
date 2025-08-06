@@ -1,0 +1,151 @@
+.wrapper {
+  display: flex;
+  padding: 32px 24px 36px;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: calc(1px + 100vh);
+  margin: 0px auto;
+  box-sizing: content-box;
+  max-width: calc(74em + 6.4rem);
+  padding-block: 2.4rem;
+  padding-inline: 3.2rem;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.user-info {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  max-width: 100%;
+  gap: 2.8rem;
+}
+.avatar {
+  width: 212px;
+  height: 212px;
+  border-radius: 50%;
+}
+
+.info {
+  flex: 1 1 0%;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin: 0px;
+  gap: 1.2rem;
+}
+
+//NAME
+.user-identifier {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+  -webkit-box-align: start;
+}
+.user-text {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 1.2rem;
+}
+.nickname {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 30px;
+  text-align: left;
+  margin-bottom: 0;
+  font-size: 2.4rem;
+}
+.check {
+  width: 20px;
+  height: 20px;
+  font-size: 1.4rem;
+  color: #20d5ec;
+}
+.name {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  height: 25px;
+  overflow: hidden;
+  max-width: 450px;
+  white-space: nowrap;
+  display: flex;
+  align-items: flex-end;
+}
+// BUTTON
+.button-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 12px;
+}
+
+//COUNT
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.count-info {
+  display: flex;
+  flex-flow: wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  color: #121212bf;
+}
+.number {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  display: flex;
+  -webkit-box-align: baseline;
+  direction: ltr;
+  align-items: baseline;
+  cursor: pointer;
+
+  &:last-child {
+    cursor: default;
+  }
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+
+  span {
+    color: rgba(22, 24, 35, 0.75);
+    // color: #161823bf;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    display: inline-block;
+    margin-left: 6px;
+  }
+
+  span:hover {
+    text-decoration: underline;
+  }
+  &:hover:last-child span {
+    text-decoration: none;
+  }
+}
+.bio {
+  text-align: left;
+  color: rgb(22, 24, 35);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  white-space: pre-line;
+  max-width: 600px;
+}

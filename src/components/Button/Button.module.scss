@@ -55,7 +55,14 @@
     border-color: currentColor;
   }
 }
+.basic {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.05);
 
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+}
 .text {
   &:hover {
     text-decoration: underline;
@@ -63,6 +70,11 @@
 }
 
 //button size
+.verysmall {
+  font-size: 2rem;
+  min-width: 40px;
+  padding: 4px 8px;
+}
 .small {
   min-width: 88px;
   padding: 4px 16px;

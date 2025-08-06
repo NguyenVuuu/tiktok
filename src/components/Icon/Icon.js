@@ -698,6 +698,24 @@ export const ShareIcon = ({
     ></path>
   </svg>
 );
+export const ShareWhiteIcon = ({
+  className,
+  width = "2rem",
+  height = "2.4rem",
+}) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    color="inherit"
+    fontSize="inherit"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M21.68 3.18a2 2 0 0 1 2.14.32l21.5 19a2 2 0 0 1-.02 3.02l-21.5 18.5a2 2 0 0 1-3.3-1.52v-9.97c-5.68.28-11.95 1.75-16.09 5.88A2 2 0 0 1 1 37c0-11.68 7.7-21.05 19.5-21.94V5a2 2 0 0 1 1.18-1.82ZM24.5 30.5v7.64l16.46-14.16L24.5 9.44V17a2 2 0 0 1-2.05 2c-8.4-.21-15.62 5.34-17.09 13.66 4.47-2.7 9.8-3.87 14.98-4.13.68-.03 1.22-.04 1.6-.04 1.19 0 2.56.26 2.56 2.01Z"></path>
+  </svg>
+);
 
 export const ShareSolidIcon = ({
   className,
@@ -998,3 +1016,22 @@ export const LockIcon = ({ className, width = "9rem", height = "9rem" }) => (
     ></path>
   </svg>
 );
+
+const Icon_Check = (props) => {
+  return (
+    <svg
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 48 48"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M43 6.08c.7.45 1.06.67 1.25.98.16.27.23.59.2.9-.03.36-.26.72-.7 1.43L23.06 42.14a3.5 3.5 0 0 1-5.63.39L4.89 27.62c-.54-.64-.81-.96-.9-1.32a1.5 1.5 0 0 1 .09-.92c.14-.33.46-.6 1.1-1.14l1.69-1.42c.64-.54.96-.81 1.31-.9.3-.06.63-.04.92.09.34.14.6.46 1.15 1.1l9.46 11.25 18.11-28.7c.45-.72.68-1.07.99-1.26.27-.16.59-.23.9-.2.36.03.71.25 1.43.7L43 6.08Z"
+      ></path>
+    </svg>
+  );
+};
