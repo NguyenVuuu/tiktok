@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames/bind";
 
 import * as userService from "~/service/userService";
@@ -7,8 +9,7 @@ import styles from "./Profile.module.scss";
 import Image from "~/components/Image";
 import Button from "~/components/Button";
 import { EllipsisHorizontalIcon, ShareWhiteIcon } from "~/components/Icon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import VideoPreview from "~/components/Video/VideoPreview";
 
 const cx = classNames.bind(styles);
 
@@ -17,11 +18,19 @@ function Profile() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchNickname, setSearchNickname] = useState("");
+
+  const [activeTab, setActiveTab] = useState("video");
+  const tabs = [
+    { id: "video", label: "Video" },
+    { id: "repost", label: "Bài đăng lại" },
+    { id: "liked", label: "Đã thích" },
+  ];
+  const [hoveredTab, setHoveredTab] = useState(null);
+  const tabRefs = useRef({});
+  const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const { nickname } = useParams();
   // Lấy nickname từ URL params
   const data = location.state;
@@ -59,6 +68,41 @@ function Profile() {
     fetchUserProfile();
   }, [targetNickname]);
 
+  // Cập nhật vị trí của underline
+  useEffect(() => {
+    const currentId = hoveredTab || activeTab;
+    const el = tabRefs.current[currentId];
+    if (el) {
+      const { offsetLeft, offsetWidth } = el;
+      setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
+    }
+  }, [hoveredTab, activeTab]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const currentId = hoveredTab || activeTab;
+      const el = tabRefs.current[currentId];
+      if (el) {
+        const { offsetLeft, offsetWidth } = el;
+        setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [hoveredTab, activeTab]);
+
+  useEffect(() => {
+    if (!userProfile) {
+      return;
+    }
+    const id = hoveredTab || activeTab;
+    const el = tabRefs.current[id];
+    if (el) {
+      setIndicatorStyle({ left: el.offsetLeft, width: el.offsetWidth });
+    }
+  }, [userProfile]);
+
   if (error) {
     return (
       <div className={cx("wrapper")}>
@@ -90,6 +134,9 @@ function Profile() {
     );
   }
 
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
   return (
     <div className={cx("wrapper")}>
       <div className={cx("container")}>
@@ -155,8 +202,54 @@ function Profile() {
             </div>
           </div>
         </div>
-        <div>
-          <h1>video preview</h1>
+        <div className={cx("video-preview")}>
+          <div className={cx("feed-tab-wrapper")}>
+            <div className={cx("feed-tab")}>
+              {tabs.map((tab) => {
+                return (
+                  <p
+                    key={tab.id}
+                    className={cx("feed-tab-item", {
+                      active: activeTab === tab.id,
+                    })}
+                    ref={(el) => (tabRefs.current[tab.id] = el)}
+                    onClick={() => handleTabChange(tab.id)}
+                    onMouseEnter={() => setHoveredTab(tab.id)}
+                    onMouseLeave={() => setHoveredTab(null)}
+                  >
+                    <span>{tab.label}</span>
+                  </p>
+                );
+              })}
+              <div
+                className={cx("bottom-line")}
+                style={{
+                  width: indicatorStyle.width,
+                  transform: `translateX(${indicatorStyle.left}px)`,
+                }}
+              ></div>
+            </div>
+            {/* <div className={cx("segmented-control")}>
+              <Button className={cx("segmented-btn")}>
+                <div className={cx("segmented-item")}>
+                  <div className={cx("segmented-item-title")}>Mới nhất</div>
+                </div>
+              </Button>
+              <Button className={cx("segmented-btn")}>
+                <div className={cx("segmented-item")}>
+                  <div className={cx("segmented-item-title")}>Thịnh Hành</div>
+                </div>
+              </Button>
+              <Button className={cx("segmented-btn")}>
+                <div className={cx("segmented-item")}>
+                  <div className={cx("segmented-item-title")}>Cũ nhất</div>
+                </div>
+              </Button>
+            </div> */}
+          </div>
+          {videos.map((video) => {
+            return <VideoPreview data={video} key={video.id} />;
+          })}
         </div>
       </div>
     </div>
