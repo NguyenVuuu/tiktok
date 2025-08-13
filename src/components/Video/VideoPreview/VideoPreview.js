@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { useRef } from "react";
 
-import { LikeActiveIcon } from "~/components/Icon";
+import { LikeIcon } from "~/components/Icon";
 import styles from "./VideoPreview.module.scss";
 
 const cx = classNames.bind(styles);
@@ -14,11 +14,13 @@ function VideoPreview({ data }) {
       <div className={cx("inner")}>
         <div
           className={cx("video-container")}
-          onMouseEnter={() => videoRef.current.play()}
+          onMouseEnter={() => {
+            videoRef.current.play();
+          }}
         >
           <div className={cx("video-inner")}>
             <div className={cx("image")}>
-              <img src={data.thumb_url} alt="" />
+              <img src={data.thumb_url} alt={data.description} />
             </div>
             <div className={cx("video")}>
               <video
@@ -26,12 +28,12 @@ function VideoPreview({ data }) {
                 loop
                 playsInline
                 preload="metadata"
-                ref={videoRef}
                 src={data.file_url}
+                ref={videoRef}
               />
             </div>
             <div className={cx("views")}>
-              <LikeActiveIcon className={cx("like-icon")} />
+              <LikeIcon className={cx("like-icon")} />
               <strong className={cx("count")}>{data.likes_count}</strong>
             </div>
           </div>

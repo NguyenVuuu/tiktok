@@ -139,6 +139,7 @@
     background-color: var(--white);
     height: 2px;
     width: 50px;
+    cursor: pointer;
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;

@@ -1,0 +1,46 @@
+.wrapper {
+  overflow-y: scroll;
+  padding: 0px 5px 2px 13px;
+  height: 368px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  height: 44px;
+  position: relative;
+  margin-bottom: 12px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #1618231f;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background: var(--white);
+  word-break: keep-all;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #d0d1d3;
+    background-color: #f8f8f8;
+  }
+}
+.icon {
+  display: flex;
+  position: absolute;
+  left: 12px;
+  font-size: 2rem;
+}
+.text {
+  width: calc(100% - 64px);
+  text-align: center;
+  font-size: 1.5rem;
+}
+.change-tab {
+  color: var(--primary);
+  cursor: pointer;
+}

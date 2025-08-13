@@ -20,13 +20,16 @@ function Profile() {
   const [error, setError] = useState(null);
 
   const [activeTab, setActiveTab] = useState("video");
+
   const tabs = [
     { id: "video", label: "Video" },
     { id: "repost", label: "Bài đăng lại" },
     { id: "liked", label: "Đã thích" },
   ];
-  const [hoveredTab, setHoveredTab] = useState(null);
+
   const tabRefs = useRef({});
+
+  const [hoveredTab, setHoveredTab] = useState(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
 
   const location = useLocation();
@@ -68,38 +71,41 @@ function Profile() {
     fetchUserProfile();
   }, [targetNickname]);
 
-  // Cập nhật vị trí của underline
+  //cập nhật bottom-line khi hover
   useEffect(() => {
     const currentId = hoveredTab || activeTab;
-    const el = tabRefs.current[currentId];
-    if (el) {
-      const { offsetLeft, offsetWidth } = el;
+    const tab = tabRefs.current[currentId];
+    if (tab) {
+      const { offsetLeft, offsetWidth } = tab;
       setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
     }
   }, [hoveredTab, activeTab]);
 
+  // cập nhật bottom-line khi resize
   useEffect(() => {
     const handleResize = () => {
       const currentId = hoveredTab || activeTab;
-      const el = tabRefs.current[currentId];
-      if (el) {
-        const { offsetLeft, offsetWidth } = el;
+      const tab = tabRefs.current[currentId];
+      if (tab) {
+        const { offsetLeft, offsetWidth } = tab;
         setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
       }
-    };
-    window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    };
   }, [hoveredTab, activeTab]);
 
+  // cập nhật kích thước ban đầu của bottom-line
   useEffect(() => {
     if (!userProfile) {
       return;
     }
-    const id = hoveredTab || activeTab;
-    const el = tabRefs.current[id];
-    if (el) {
-      setIndicatorStyle({ left: el.offsetLeft, width: el.offsetWidth });
+    const currentId = hoveredTab || activeTab;
+    const tab = tabRefs.current[currentId];
+
+    if (tab) {
+      setIndicatorStyle({ left: tab.offsetLeft, width: tab.offsetWidth });
     }
   }, [userProfile]);
 
@@ -212,7 +218,7 @@ function Profile() {
                     className={cx("feed-tab-item", {
                       active: activeTab === tab.id,
                     })}
-                    ref={(el) => (tabRefs.current[tab.id] = el)}
+                    ref={(ref) => (tabRefs.current[tab.id] = ref)}
                     onClick={() => handleTabChange(tab.id)}
                     onMouseEnter={() => setHoveredTab(tab.id)}
                     onMouseLeave={() => setHoveredTab(null)}
@@ -247,8 +253,11 @@ function Profile() {
               </Button>
             </div> */}
           </div>
-          {videos.map((video) => {
+          {/* {videos.map((video) => {
             return <VideoPreview data={video} key={video.id} />;
+          })} */}
+          {videos.map((video) => {
+            return <VideoPreview key={video.id} data={video} />;
           })}
         </div>
       </div>

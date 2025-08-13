@@ -25,6 +25,7 @@ import {
 import Image from "~/components/Image";
 import { Link } from "react-router-dom";
 import Search from "../Search";
+import AuthModal from "~/components/Modal/AuthModal";
 
 const cx = classNames.bind(styles);
 
@@ -58,8 +59,8 @@ const MENU_ITEMS = [
   },
 ];
 function Header() {
-  // const [currentUser, setCurrentUser] = useState(true);
-  const currentUser = true;
+  const currentUser = false;
+  const [openAuth, setOpenAuth] = useState(false);
 
   //handle logic
   const handleMenuChange = (menuItem) => {
@@ -132,8 +133,10 @@ function Header() {
             ) : (
               //render giao diện chưa đăng nhập
               <>
-                <Button text>Upload</Button>
-                <Button primary to="/">
+                <Button text onClick={() => setOpenAuth(true)}>
+                  Upload
+                </Button>
+                <Button primary onClick={() => setOpenAuth(true)}>
                   Log in
                 </Button>
               </>
@@ -158,6 +161,7 @@ function Header() {
           </div>
         </div>
       </header>
+      <AuthModal open={openAuth} onClose={() => setOpenAuth(false)} />
     </>
   );
 }
