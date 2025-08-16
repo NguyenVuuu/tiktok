@@ -1,6 +1,8 @@
 import { useState } from "react";
 import classNames from "classnames/bind";
+import Tippy from "@tippyjs/react/headless";
 
+import { Wrapper as PopperWrapper } from "~/components/Popper";
 import { AngleDownIcon, HideIcon, UnHideIcon } from "~/components/Icon";
 import styles from "./SignupModal.module.scss";
 import Button from "~/components/Button";
@@ -13,9 +15,15 @@ function SignupModal() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [openSelector, setOpenSelector] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+
   const toggleSelector = (type) => {
     setOpenSelector((prev) => (prev === type ? null : type));
   };
+
+  const closeSelector = () => setOpenSelector(null);
 
   const isDisabled = !email || !password;
   const month = [
@@ -147,38 +155,128 @@ function SignupModal() {
       <form>
         <div className={cx("label")}>When's your birthday?</div>
         <div className={cx("age-selectors")}>
-          <div
-            className={cx("selector")}
-            onClick={() => toggleSelector("month")}
+          <Tippy
+            interactive
+            placement="bottom-start"
+            visible={openSelector === "month"}
+            onClickOutside={closeSelector}
+            render={(attrs) => (
+              <div tabIndex="-1" {...attrs}>
+                <PopperWrapper className={cx("selector-popper")}>
+                  <div className={cx("options")}>
+                    {month.map((m) => (
+                      <div
+                        key={m}
+                        className={cx("option")}
+                        onClick={() => {
+                          setSelectedMonth(m);
+                          closeSelector();
+                        }}
+                      >
+                        {m}
+                      </div>
+                    ))}
+                  </div>
+                </PopperWrapper>
+              </div>
+            )}
           >
-            <div className={cx("select-label")}>
-              Month
-              <AngleDownIcon
-                className={cx("down-icon", {
-                  rotate: openSelector === "month",
-                })}
-              />
+            <div
+              className={cx("selector")}
+              onClick={() => toggleSelector("month")}
+            >
+              <div className={cx("select-label", { selected: selectedMonth })}>
+                {selectedMonth || "Month"}
+                <AngleDownIcon
+                  className={cx("down-icon", {
+                    rotate: openSelector === "month",
+                  })}
+                />
+              </div>
             </div>
-          </div>
-          <div className={cx("selector")} onClick={() => toggleSelector("day")}>
-            <div className={cx("select-label")}>
-              Day
-              <AngleDownIcon
-                className={cx("down-icon", { rotate: openSelector === "day" })}
-              />
-            </div>
-          </div>
-          <div
-            className={cx("selector")}
-            onClick={() => toggleSelector("year")}
+          </Tippy>
+
+          <Tippy
+            interactive
+            placement="bottom-start"
+            visible={openSelector === "day"}
+            onClickOutside={closeSelector}
+            render={(attrs) => (
+              <div tabIndex="-1" {...attrs}>
+                <PopperWrapper className={cx("selector-popper")}>
+                  <div className={cx("options")}>
+                    {day.map((d) => (
+                      <div
+                        key={d}
+                        className={cx("option")}
+                        onClick={() => {
+                          setSelectedDay(d);
+                          closeSelector();
+                        }}
+                      >
+                        {d}
+                      </div>
+                    ))}
+                  </div>
+                </PopperWrapper>
+              </div>
+            )}
           >
-            <div className={cx("select-label")}>
-              Year
-              <AngleDownIcon
-                className={cx("down-icon", { rotate: openSelector === "year" })}
-              />
+            <div
+              className={cx("selector")}
+              onClick={() => toggleSelector("day")}
+            >
+              <div className={cx("select-label", { selected: selectedDay })}>
+                {selectedDay || "Day"}
+                <AngleDownIcon
+                  className={cx("down-icon", {
+                    rotate: openSelector === "day",
+                  })}
+                />
+              </div>
             </div>
-          </div>
+          </Tippy>
+
+          <Tippy
+            interactive
+            placement="bottom-start"
+            visible={openSelector === "year"}
+            onClickOutside={closeSelector}
+            render={(attrs) => (
+              <div tabIndex="-1" {...attrs}>
+                <PopperWrapper className={cx("selector-popper")}>
+                  <div className={cx("options")}>
+                    {year.map((y) => (
+                      <div
+                        key={y}
+                        className={cx("option")}
+                        onClick={() => {
+                          setSelectedYear(y);
+                          closeSelector();
+                        }}
+                      >
+                        {y}
+                      </div>
+                    ))}
+                  </div>
+                </PopperWrapper>
+              </div>
+            )}
+          >
+            <div
+              className={cx("selector")}
+              onClick={() => toggleSelector("year")}
+            >
+              <div className={cx("select-label", { selected: selectedYear })}>
+                {selectedYear || "Year"}
+                <AngleDownIcon
+                  className={cx("down-icon", {
+                    rotate: openSelector === "year",
+                  })}
+                />
+              </div>
+            </div>
+          </Tippy>
         </div>
         <div className={cx("description")}>
           Your birthday won't be shown publicly.

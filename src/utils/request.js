@@ -11,4 +11,24 @@ export const get = async (path, options = {}) => {
   return response.data;
 };
 
+export const login = async (path, option = {}) => {
+  const response = await request.post(path, option);
+
+  return response;
+};
+
+export const register = async (path, option = {}) => {
+  const response = await request.post(path, option);
+  return response;
+};
+
+export const getCurrentUser = async (path, option = {}) => {
+  const response = await request.get(path, option);
+
+  if (response.status !== 200) {
+    throw Error("Network response was not ok! - GET CURRENT USER");
+  }
+
+  return response;
+};
 export default request;
