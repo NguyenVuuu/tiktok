@@ -13,15 +13,16 @@
   display: flex;
   margin-bottom: 4px;
 }
+.selector-container {
+  & + .selector-container {
+    margin-inline-start: 20px;
+  }
+}
 .selector {
   position: relative;
   border-radius: 4px;
   background: rgba(22, 24, 35, 0.06);
   cursor: pointer;
-
-  & + .selector {
-    margin-inline-start: 20px;
-  }
 }
 .select-label {
   display: flex;
@@ -78,6 +79,14 @@
 // INPUT
 .container {
   margin-bottom: 9px;
+
+  .error {
+    display: flex;
+    margin: 4px 0;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: #ff4c3a;
+  }
 }
 .input-container {
   margin-bottom: 9px;
@@ -119,18 +128,36 @@
   width: 100%;
   margin-top: 16px;
 }
+.loading {
+  font-size: 1.6rem;
+  color: var(--white);
+  animation: spinner 1s linear infinite;
+}
+.result-message {
+  margin-top: 12px;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  text-align: center;
 
+  &.success {
+    color: #0be09b;
+  }
+
+  &.error {
+    color: #ff4c3a;
+  }
+}
 // Tippy
 
 .options {
   width: 115px;
 }
 
-@keyframes rotate {
+@keyframes spinner {
   from {
-    transform: rotateZ(0deg);
+    transform: rotate(0);
   }
   to {
-    transform: rotateZ(180deg);
+    transform: rotate(360deg);
   }
 }

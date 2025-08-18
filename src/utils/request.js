@@ -14,12 +14,13 @@ export const get = async (path, options = {}) => {
 export const login = async (path, option = {}) => {
   const response = await request.post(path, option);
 
-  return response;
+  return response.data;
 };
 
 export const register = async (path, option = {}) => {
   const response = await request.post(path, option);
-  return response;
+
+  return response.data;
 };
 
 export const getCurrentUser = async (path, option = {}) => {
@@ -29,6 +30,14 @@ export const getCurrentUser = async (path, option = {}) => {
     throw Error("Network response was not ok! - GET CURRENT USER");
   }
 
-  return response;
+  return response.data;
+};
+
+export const updateProfile = async (path, data, option = {}) => {
+  const response = await request.put(path, data, option);
+  if (response.status !== 200) {
+    throw Error("Network response was not ok! - UPDATE PROFILE");
+  }
+  return response.data;
 };
 export default request;

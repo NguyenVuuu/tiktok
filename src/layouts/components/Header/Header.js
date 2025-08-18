@@ -58,7 +58,7 @@ const MENU_ITEMS = [
     title: "Keyboard shortcuts",
   },
 ];
-function Header() {
+function Header({ currentUsers }) {
   const currentUser = false;
   const [openAuth, setOpenAuth] = useState(false);
 

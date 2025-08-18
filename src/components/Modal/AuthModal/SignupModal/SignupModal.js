@@ -7,25 +7,49 @@ import { AngleDownIcon, HideIcon, UnHideIcon } from "~/components/Icon";
 import styles from "./SignupModal.module.scss";
 import Button from "~/components/Button";
 import FormBase from "../FormBase";
+import { register } from "~/service/authService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 function SignupModal() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [fieldValue, setFieldValue] = useState({
+    email: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [openSelector, setOpenSelector] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
 
+  const [errorField, setErrorField] = useState({
+    email: "",
+    password: "",
+  });
+  const [resultSubmit, setResultSubmit] = useState({
+    success: false,
+    message: "",
+  });
+
+  const regexMail = /^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]+@gmail\.com$/;
+  const regexPwd = /^.{6,}$/;
+
+  const validMail = regexMail.test(fieldValue.email);
+  const validPwd = regexPwd.test(fieldValue.password);
+
+  const isDisabled = !validMail || !validPwd;
+
   const toggleSelector = (type) => {
     setOpenSelector((prev) => (prev === type ? null : type));
   };
 
-  const closeSelector = () => setOpenSelector(null);
+  const closeSelector = () => {
+    setOpenSelector(null);
+  };
 
-  const isDisabled = !email || !password;
   const month = [
     "January",
     "February",
@@ -150,133 +174,219 @@ function SignupModal() {
     "1951",
     "1950",
   ];
+
+  const validateField = (type, value) => {
+    let error = "";
+    if (type === "email") {
+      if (!regexMail.test(value)) {
+        error = "Invalid email";
+      }
+    }
+    if (type === "password") {
+      if (!regexPwd.test(value)) {
+        error = "Password must be at least 6 characters";
+      }
+    }
+    setErrorField((prev) => ({
+      ...prev,
+      [type]: error,
+    }));
+    return error === "";
+  };
+
+  const validateForm = () => {
+    const emailValid = validateField("email", fieldValue.email);
+    const passwordValid = validateField("password", fieldValue.password);
+    return emailValid && passwordValid;
+  };
+
+  const handleFieldValue = (type, value) => {
+    setFieldValue((prev) => ({
+      ...prev,
+      [type]: value,
+    }));
+
+    //reset text submit khi user nhap lai
+
+    setResultSubmit({
+      success: false,
+      message: "",
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!validateForm()) {
+        return;
+      }
+      setLoading(true);
+      let response = await register(fieldValue.email, fieldValue.password);
+      if (response.success) {
+        //reset form
+        setFieldValue({
+          email: "",
+          password: "",
+        });
+        setSelectedDay(null);
+        setSelectedMonth(null);
+        setSelectedYear(null);
+
+        //show mess success
+        setResultSubmit({
+          success: true,
+          message: "Register successfully, Go to login",
+        });
+      } else {
+        setResultSubmit({
+          success: false,
+          message: response.error || response.message || "Register Fail",
+        });
+      }
+    } catch (error) {
+      setResultSubmit({
+        success: false,
+        message: error.message || "Something went wrong",
+      });
+      console.log("Please double check the information!", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <FormBase className={cx("signup-form")}>
       <form>
         <div className={cx("label")}>When's your birthday?</div>
         <div className={cx("age-selectors")}>
-          <Tippy
-            interactive
-            placement="bottom-start"
-            visible={openSelector === "month"}
-            onClickOutside={closeSelector}
-            render={(attrs) => (
-              <div tabIndex="-1" {...attrs}>
-                <PopperWrapper className={cx("selector-popper")}>
-                  <div className={cx("options")}>
-                    {month.map((m) => (
-                      <div
-                        key={m}
-                        className={cx("option")}
-                        onClick={() => {
-                          setSelectedMonth(m);
-                          closeSelector();
-                        }}
-                      >
-                        {m}
-                      </div>
-                    ))}
-                  </div>
-                </PopperWrapper>
-              </div>
-            )}
-          >
-            <div
-              className={cx("selector")}
-              onClick={() => toggleSelector("month")}
+          <div className={cx("selector-container")}>
+            <Tippy
+              interactive
+              placement="bottom-start"
+              visible={openSelector === "month"}
+              onClickOutside={closeSelector}
+              render={(attrs) => (
+                <div tabIndex="-1" {...attrs}>
+                  <PopperWrapper className={cx("selector-popper")}>
+                    <div className={cx("options")}>
+                      {month.map((m) => (
+                        <div
+                          key={m}
+                          className={cx("option")}
+                          onClick={() => {
+                            setSelectedMonth(m);
+                            closeSelector();
+                          }}
+                        >
+                          {m}
+                        </div>
+                      ))}
+                    </div>
+                  </PopperWrapper>
+                </div>
+              )}
             >
-              <div className={cx("select-label", { selected: selectedMonth })}>
-                {selectedMonth || "Month"}
-                <AngleDownIcon
-                  className={cx("down-icon", {
-                    rotate: openSelector === "month",
-                  })}
-                />
+              <div
+                className={cx("selector")}
+                onClick={() => toggleSelector("month")}
+              >
+                <div
+                  className={cx("select-label", { selected: selectedMonth })}
+                >
+                  {selectedMonth || "Month"}
+                  <AngleDownIcon
+                    className={cx("down-icon", {
+                      rotate: openSelector === "month",
+                    })}
+                  />
+                </div>
               </div>
-            </div>
-          </Tippy>
+            </Tippy>
+          </div>
 
-          <Tippy
-            interactive
-            placement="bottom-start"
-            visible={openSelector === "day"}
-            onClickOutside={closeSelector}
-            render={(attrs) => (
-              <div tabIndex="-1" {...attrs}>
-                <PopperWrapper className={cx("selector-popper")}>
-                  <div className={cx("options")}>
-                    {day.map((d) => (
-                      <div
-                        key={d}
-                        className={cx("option")}
-                        onClick={() => {
-                          setSelectedDay(d);
-                          closeSelector();
-                        }}
-                      >
-                        {d}
-                      </div>
-                    ))}
-                  </div>
-                </PopperWrapper>
-              </div>
-            )}
-          >
-            <div
-              className={cx("selector")}
-              onClick={() => toggleSelector("day")}
+          <div className={cx("selector-container")}>
+            <Tippy
+              interactive
+              placement="bottom-start"
+              visible={openSelector === "day"}
+              onClickOutside={closeSelector}
+              render={(attrs) => (
+                <div tabIndex="-1" {...attrs}>
+                  <PopperWrapper className={cx("selector-popper")}>
+                    <div className={cx("options")}>
+                      {day.map((d) => (
+                        <div
+                          key={d}
+                          className={cx("option")}
+                          onClick={() => {
+                            setSelectedDay(d);
+                            closeSelector();
+                          }}
+                        >
+                          {d}
+                        </div>
+                      ))}
+                    </div>
+                  </PopperWrapper>
+                </div>
+              )}
             >
-              <div className={cx("select-label", { selected: selectedDay })}>
-                {selectedDay || "Day"}
-                <AngleDownIcon
-                  className={cx("down-icon", {
-                    rotate: openSelector === "day",
-                  })}
-                />
+              <div
+                className={cx("selector")}
+                onClick={() => toggleSelector("day")}
+              >
+                <div className={cx("select-label", { selected: selectedDay })}>
+                  {selectedDay || "Day"}
+                  <AngleDownIcon
+                    className={cx("down-icon", {
+                      rotate: openSelector === "day",
+                    })}
+                  />
+                </div>
               </div>
-            </div>
-          </Tippy>
+            </Tippy>
+          </div>
 
-          <Tippy
-            interactive
-            placement="bottom-start"
-            visible={openSelector === "year"}
-            onClickOutside={closeSelector}
-            render={(attrs) => (
-              <div tabIndex="-1" {...attrs}>
-                <PopperWrapper className={cx("selector-popper")}>
-                  <div className={cx("options")}>
-                    {year.map((y) => (
-                      <div
-                        key={y}
-                        className={cx("option")}
-                        onClick={() => {
-                          setSelectedYear(y);
-                          closeSelector();
-                        }}
-                      >
-                        {y}
-                      </div>
-                    ))}
-                  </div>
-                </PopperWrapper>
-              </div>
-            )}
-          >
-            <div
-              className={cx("selector")}
-              onClick={() => toggleSelector("year")}
+          <div className={cx("selector-container")}>
+            <Tippy
+              interactive
+              placement="bottom-start"
+              visible={openSelector === "year"}
+              onClickOutside={closeSelector}
+              render={(attrs) => (
+                <div tabIndex="-1" {...attrs}>
+                  <PopperWrapper className={cx("selector-popper")}>
+                    <div className={cx("options")}>
+                      {year.map((y) => (
+                        <div
+                          key={y}
+                          className={cx("option")}
+                          onClick={() => {
+                            setSelectedYear(y);
+                            closeSelector();
+                          }}
+                        >
+                          {y}
+                        </div>
+                      ))}
+                    </div>
+                  </PopperWrapper>
+                </div>
+              )}
             >
-              <div className={cx("select-label", { selected: selectedYear })}>
-                {selectedYear || "Year"}
-                <AngleDownIcon
-                  className={cx("down-icon", {
-                    rotate: openSelector === "year",
-                  })}
-                />
+              <div
+                className={cx("selector")}
+                onClick={() => toggleSelector("year")}
+              >
+                <div className={cx("select-label", { selected: selectedYear })}>
+                  {selectedYear || "Year"}
+                  <AngleDownIcon
+                    className={cx("down-icon", {
+                      rotate: openSelector === "year",
+                    })}
+                  />
+                </div>
               </div>
-            </div>
-          </Tippy>
+            </Tippy>
+          </div>
         </div>
         <div className={cx("description")}>
           Your birthday won't be shown publicly.
@@ -287,17 +397,22 @@ function SignupModal() {
             <input
               placeholder="Email address"
               type="text"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => handleFieldValue("email", e.target.value)}
+              onBlur={(e) => validateField("email", e.target.value)}
+              value={fieldValue.email}
             />
             <div className={cx("icon-container")}></div>
           </div>
+          <div className={cx("error")}>{errorField.email}</div>
         </div>
         <div className={cx("container")}>
           <div className={cx("input-container")}>
             <input
               placeholder="Password"
               type={showPassword ? "text" : "password"}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => handleFieldValue("password", e.target.value)}
+              onBlur={(e) => validateField("password", e.target.value)}
+              value={fieldValue.password}
             />
             <div
               className={cx("icon-container")}
@@ -306,6 +421,7 @@ function SignupModal() {
               <i>{showPassword ? <UnHideIcon /> : <HideIcon />}</i>
             </div>
           </div>
+          <div className={cx("error")}>{errorField.password}</div>
         </div>
       </form>
 
@@ -314,9 +430,24 @@ function SignupModal() {
         primary={!isDisabled}
         disabled={isDisabled}
         className={cx("next-btn")}
+        onClick={handleSubmit}
       >
-        Next
+        {loading ? (
+          <FontAwesomeIcon icon={faCircleNotch} className={cx("loading")} />
+        ) : (
+          "Next"
+        )}
       </Button>
+      {resultSubmit.message !== "" && (
+        <div
+          className={cx("result-message", {
+            success: resultSubmit.success,
+            error: !resultSubmit.success,
+          })}
+        >
+          {resultSubmit.message}
+        </div>
+      )}
     </FormBase>
   );
 }
